@@ -1,17 +1,35 @@
+// class Solution {
+//     public int rob(int[] nums) {
+//         int[] dp = new int[nums.length];
+//         Arrays.fill(dp, -1);
+
+//         return fun(nums.length - 1, nums, dp);
+//     }
+//     public int fun(int i, int[] nums, int[] dp) {
+//         if (i < 0)  return 0;
+//         if (dp[i] != -1)  return dp[i];
+    
+//         int c1 = nums[i] + fun(i - 2, nums, dp);
+//         int c2 = fun(i - 1, nums, dp);
+
+//         return dp[i] = Math.max(c1, c2);
+//     }
+// }
+
+
+//                        USING TABULATION METHOD
 class Solution {
     public int rob(int[] nums) {
+        if (nums == null || nums.length == 0) return 0;
+        if (nums.length == 1) return nums[0];
         int[] dp = new int[nums.length];
-        Arrays.fill(dp, -1);
-
-        return fun(nums.length - 1, nums, dp);
-    }
-    public int fun(int i, int[] nums, int[] dp) {
-        if (i < 0)  return 0;
-        if (dp[i] != -1)  return dp[i];
-    
-        int take = nums[i] + fun(i - 2, nums, dp);
-        int notTake = fun(i - 1, nums, dp);
-
-        return dp[i] = Math.max(take, notTake);
+        dp[0] = nums[0];
+        dp[1] = Math.max(nums[0], nums[1]);
+        
+        for (int i = 2; i < nums.length; i++) {
+            dp[i] = Math.max(dp[i - 1], nums[i] + dp[i - 2]);
+        }
+        
+        return dp[nums.length - 1];
     }
 }
